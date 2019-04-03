@@ -1,0 +1,178 @@
+# Log.-Visual - TODOS OS T/C
+
+    public int dividir(int a, int b)
+            throws ArithmeticException{
+        int resp=0;
+        try {
+           resp = a/b; 
+        } catch (ArithmeticException e) {
+            throw new ArithmeticException(
+            "Divisão por zero! barra bizerro");
+        }//fecha catch
+        return resp;
+    }//fecha método
+    ------------------------
+    private void cadastrar() {
+        try { //ALT+SHIFT+F
+            Pessoa p = new Pessoa();
+            /*if(jtNome.getText().toString().isEmpty()){
+                JOptionPane.showMessageDialog(this, "digite um nome");
+                return;
+            }*/
+            if(!jtNome.getText().toString().isEmpty()){
+              p.setNome(jtNome.getText());
+            }else{
+              throw new NumberFormatException("Nome inválido!");
+            }
+            
+            if(!jtPeso.getText().toString().isEmpty()){
+              p.setPeso(Double.parseDouble(jtPeso.getText()));              
+            }else{
+                throw new NumberFormatException("Peso inválido!");
+            }
+            
+            if(!jtAltura.getText().toString().isEmpty()){
+                p.setAltura(Double.parseDouble(jtAltura.getText()));
+            }else{
+                throw new NumberFormatException("Altura inválida!");
+            }
+            
+            if(bgSexo.getSelection()!=null){
+                p.setSexo(
+                   bgSexo.getSelection().getActionCommand());
+            }else{
+                throw new NullPointerException(
+                        "Escolha um sexo!");
+            }
+            
+            jtResultado.setText(p.toString()+"\n"+p.dividir(10,2));
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, 
+                "Dado(s) inválido(s)! "+e.getMessage());
+        } catch(ArithmeticException ae){
+            JOptionPane.showMessageDialog(this, 
+                "Erro matemático! "+ae.getMessage());
+        } catch(NullPointerException e){
+            JOptionPane.showMessageDialog(this, 
+                "Erro! "+e.getMessage());
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(this, 
+                "Algum erro ocorreu! "+e.getMessage());
+        }
+    }//fecha cadastrar
+    ------------------------------
+    public class ProdutoDAO { //DATA ACCESS OBJECT
+
+    public void cadastrarProduto(ProdutoVO p) throws SQLException {
+        Connection con = ConexaoBanco.getConexao();
+        Statement stat = con.createStatement();
+        try {
+            String sql = "";
+            
+            sql = "insert into produto(idproduto,nome,valorcusto,quantidade)"
+                    + "values(null,'"+p.getNome()+"',"+p.getValorCusto()+","+p.getQuantidade()+")";
+            
+            stat.execute(sql);
+            
+        } catch (SQLException e) {
+           throw new SQLException("Erro ao cadastrar! " + e.getMessage());
+        } finally {
+           stat.close();
+           con.close();
+        }
+    }//fecha método
+}//fecha classe
+--------------------------------------
+  private void cadastrar() {
+        try {
+            ProdutoVO pVO = new ProdutoVO();
+            pVO.setNome(jtNome.getText());
+            pVO.setValorCusto(Double.parseDouble(jtValorCusto.getText()));
+            pVO.setQuantidade(Integer.parseInt(jtQuantidade.getText()));
+            
+            /* Aqui você deve colocar o código para 
+             * inserir o objeto no banco de dados */
+            ProdutoServicos ps = ServicosFactory.getProdutoServicos();
+            ps.cadastrarProduto(pVO);
+            
+            JOptionPane.showMessageDialog(
+                    rootPane, 
+                    "Produto cadastrado com sucesso!");
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    "Erro! "+e.getMessage(),
+                    "erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }//fecha catch
+        
+    }//fecha método cadastrar
+----------------------------------
+
+        try {
+            String sql;
+
+            //MAPEAMENTO OBJETO RELACIONAL
+            sql = "insert into produto(idproduto,nome,valorcusto,quantidade)"
+                    + "values(null, '" + pVO.getNome() + "', " + pVO.getValorCusto() + ", " + pVO.getQuantidade() + ")";
+
+            stat.execute(sql);
+
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao cadastrar produto! " + e.getMessage());
+        } finally {
+            con.close();
+            stat.close();
+        }//fecha finally
+  ----------------------------------
+   try {
+            String sql="";
+            sql="select * from produto";
+            ArrayList<ProdutoVO> prods = new ArrayList<>();
+            ResultSet rs = stat.executeQuery(sql);
+            while(rs.next()){
+                ProdutoVO p = new ProdutoVO();
+                p.setIdProduto(rs.getLong("idproduto"));
+                p.setNome(rs.getString("nome"));			
+                p.setValorCusto(rs.getDouble("valorcusto"));
+                p.setQuantidade(rs.getInt("quantidade"));   
+                prods.add(p); //NAO ESQUECER
+            }
+            return prods; //NAO ESQUECER
+        } catch (SQLException e) {
+         throw new SQLException(
+          "Erro ao buscar produtos!"+e.getMessage());
+        } finally {
+            stat.close();
+            con.close();
+        }//fecha finally
+    }//fecha método
+    -------------------------------------
+    
+    private void preencherTabela() {
+        try {
+            ProdutoServicos ps = 
+                    ServicosFactory.getProdutoServicos();
+            ArrayList<ProdutoVO> prods = ps.buscarProdutos();
+            //para teste
+            System.out.println("TESTE: " + prods.toString());
+
+            for (int i = 0; i < prods.size(); i++) {
+                dtm.addRow(new String[]{
+                 String.valueOf(prods.get(i).getIdProduto()),
+                 prods.get(i).getNome(),
+                 String.valueOf(prods.get(i).getValorCusto()),
+                 String.valueOf(prods.get(i).getQuantidade())
+                });
+            }
+
+            jtableProduto.setModel(dtm);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Erro! " + e.getMessage());
+        }//fech catch
+    }//preencherTabela
