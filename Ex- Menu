@@ -1,0 +1,22 @@
+# Log.-Visual TODOS OS MENUS
+    
+    public Menu() {
+        initComponents();
+        
+        setExtendedState(MAXIMIZED_BOTH);
+    }
+
+    private void jmSairMouseClicked(java.awt.event.MouseEvent evt) {                                    
+        System.exit(0);
+    }                                   
+
+    private void abrirCadPessoa(){
+        UICadPessoa cp = new UICadPessoa();
+        jAreaDeTrabalho.add(cp);
+        cp.setVisible(true);
+    }//fecha abrirCadPessoa   
+
+    private void jmiCadPessoaActionPerformed(java.awt.event.ActionEvent evt) {                                             
+        abrirCadPessoa();
+    }
+    -----------------------------
