@@ -1,0 +1,286 @@
+# Log.-Visual TODO O RESTO DAS CLASSES PADROES
+ 
+public class Pessoa {    
+    private String nome;
+
+    public Pessoa() {
+    }
+
+    public Pessoa(String nome) {
+        this.nome = nome;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    @Override
+    public String toString() {
+        return "Pessoa{" + "nome=" + nome + '}';
+    }
+}//fecha classe
+-------------------------------
+public class Numero {
+
+    	private double n1;
+    	private double n2;
+
+    	public double getN1() {
+        	return n1;
+    	}
+
+   	 public void setN1(double n1) {
+        	this.n1 = n1;
+   	 }
+
+   	public double getN2() {
+        	return n2;
+    	}
+
+   	public void setN2(double n2) {
+        	this.n2 = n2;
+    	}
+
+    	/**
+     	*
+     	* @return retorna a soma entre n1 e n2
+     	*/
+    	public double somar() {
+        return n1 + n2;
+    	}
+
+    	/**
+     	*
+     	* @return retorna a subtração de n1 por n2
+     	*/
+    	public double subtrair() {
+        return n1 - n2;
+    	}
+
+	/**
+     	*
+     	* @return retorna a divisão de n1 por n2
+     	*/
+    	public double dividir() {
+        	return n1 / n2;
+    	}
+
+    	/**
+     	*
+     	* @return retorna a multiplicação de n1 por n2
+     	*/
+    	public double multiplicar() {
+        	return n1 * n2;
+    	}
+   
+    	/**
+     	* @return Verifica se o n1 é par ou nao.
+     	*/
+
+    	public boolean verificarParN1(){
+        	return n1%2==0;
+    	}
+    
+    	/**
+     	* @return Verifica se qualquer outro num é par ou nao.
+     	*/
+
+    	public boolean verificarPar(int num){
+       		 return num%2==0;
+    	}	    
+
+    	/**
+     	* @param n asdfasdf
+     	* @return  asdfasddf
+     	*/
+
+    	public String bla(int n){
+        	if(n == 1){
+           		 return "um";
+        }
+       			 return "erro";
+    	}//fecha bla
+
+}//fecha classe
+--------------------------------------
+public class Pessoa {
+    
+    private String nome;
+    private String sexo; //JRadioButton
+
+    public Pessoa() {
+    }
+
+    /**
+     * 
+     * @param nome
+     * @param sexo 
+     */
+    public Pessoa(String nome, String sexo) {
+        this.nome = nome;
+        this.sexo = sexo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+    
+    /**
+     * @return 
+     */
+    public String verificarSexo(){
+        if(sexo.equalsIgnoreCase("Masculino")){
+            return "homem";
+        }
+        return "mulher";
+    }//fecha verificarSexo
+
+    @Override
+    public String toString() {
+        return "\nnome=" + nome 
+              +"\nsexo=" + sexo 
+              +"\nverificar sexo=" + verificarSexo();
+    }
+}//fecha classe
+--------------------------
+public class Calculadora {
+
+    private double n1;
+    private double n2;
+
+    public Calculadora() {
+    }
+
+    public Calculadora(double n1, double n2) {
+        this.n1 = n1;
+        this.n2 = n2;
+    }
+
+    public double getN1() {
+        return n1;
+    }
+
+    public void setN1(double n1) {
+        this.n1 = n1;
+    }
+
+    public double getN2() {
+        return n2;
+    }
+
+    public void setN2(double n2) {
+        this.n2 = n2;
+    }
+
+    public double somar() {
+        return n1 + n2;
+    }
+
+    public double subtrair() {
+        return n1 - n2;
+    }
+
+    public double dividir() {
+        return n1 / n2;
+    }
+
+    public double multiplicar() {
+        return n1 * n2;
+    }
+
+    @Override
+    public String toString() {
+        return "\nn1=" + n1 
+              +"\nn2=" + n2 
+              +"\nsoma: " +n1+" + "+n2+" = "+ somar()
+              +"\nsubtração: " + subtrair()
+              +"\ndivisão: "+dividir()
+              +"\nmultiplicação: "+multiplicar();
+    }
+}//fecha calculadora
+-------------------------------
+public class Calculadora {
+
+    private double n1;
+    private double n2;
+    
+
+    public Calculadora() {
+    }
+
+    public Calculadora(double n1, double n2) {
+        this.n1 = n1;
+        this.n2 = n2;
+    }
+
+    public double getN1() {
+        return n1;
+    }
+
+    public void setN1(double n1) {
+        this.n1 = n1;
+    }
+
+    public double getN2() {
+        return n2;
+    }
+
+    public void setN2(double n2) {
+        this.n2 = n2;
+    }    
+    
+    public double somar() {
+        return n1 + n2;
+    }
+
+    public double subtrair() {
+        return n1 - n2;
+    }
+
+    public double dividir() {
+        return n1 / n2;
+    }
+
+    public double multiplicar() {
+        return n1 * n2;
+    }
+    
+    public String verificar(String op){
+        if(op.equalsIgnoreCase("somar")){
+            return n1+"+"+n2+"="+somar();
+        }else if(op.equalsIgnoreCase("subtrair")){
+            return n1+"-"+n2+"="+subtrair();
+        }else if(op.equalsIgnoreCase("dividir")){
+            return n1+"/"+n2+"="+dividir();
+        }else if(op.equalsIgnoreCase("multiplicar")){
+            return n1+"*"+n2+"="+multiplicar();
+        }
+        return toString();    
+    }
+
+    @Override
+    public String toString() {
+        return "\nn1=" + n1 
+              +"\nn2=" + n2 
+              +"\nsoma: " +n1+" + "+n2+" = "+ somar()
+              +"\nsubtração: " + subtrair()
+              +"\ndivisão: "+dividir()
+              +"\nmultiplicação: "+multiplicar();
+    }
+}//fecha calculadora
