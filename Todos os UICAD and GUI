@@ -1,0 +1,98 @@
+# Log.-Visual - Todos os UICAD e GUI
+
+    private void cadastrar() {
+        try {
+            Pessoa p = new Pessoa();
+
+            if (jtNome.getText().toString().isEmpty()) {
+                throw new NumberFormatException(
+                        "Nome inválido!");
+            }//fecha if
+
+            p.setNome(jtNome.getText());
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    p.toString());
+        } catch (NumberFormatException | ArithmeticException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Dado(s) inválido(s)! " + e.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Erro! " + e.getMessage());
+        } finally {
+            System.out.println("passou aqui");
+        }
+    }//fecha cadastrar
+
+    private void limpar() {
+        jtNome.setText("");
+        jtNome.grabFocus();
+    }//fecha limpar
+
+    private void jbCadastrarActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        cadastrar();
+        limpar();
+    }                                           
+
+    private void jtNomeFocusLost(java.awt.event.FocusEvent evt) {                                 
+        if (jtNome.getText().toString().isEmpty()) {
+            jtNome.setBackground(Color.red);
+            jtNome.setForeground(Color.yellow);
+        } else {
+            jtNome.setBackground(Color.white);
+            jtNome.setForeground(Color.black);
+        }//fecha else
+    }
+    ---------------------------------
+    public class GUIManutencaoProduto extends javax.swing.JInternalFrame {
+
+    DefaultTableModel dtm = new DefaultTableModel(
+            new Object[][]{},
+            new Object[]{"Código", "Nome", "Valor custo", "Quantidade"});
+
+    /**
+     * Creates new form GUIManutencaoProduto
+     */
+    public GUIManutencaoProduto() {
+        initComponents();
+        preencherTabela();
+    }
+
+    private void preencherTabela() {
+        try {
+            ProdutoServicos ps = 
+                    ServicosFactory.getProdutoServicos();
+            ArrayList<ProdutoVO> prods = ps.buscarProdutos();
+            //para teste
+            System.out.println("TESTE: " + prods.toString());
+
+            for (int i = 0; i < prods.size(); i++) {
+                dtm.addRow(new String[]{
+                 String.valueOf(prods.get(i).getIdProduto()),
+                 prods.get(i).getNome(),
+                 String.valueOf(prods.get(i).getValorCusto()),
+                 String.valueOf(prods.get(i).getQuantidade())
+                });
+            }
+
+            jtableProduto.setModel(dtm);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Erro! " + e.getMessage());
+        }//fech catch
+    }//preencherTabela
+
+    private void limpar(){
+        dtm.setNumRows(0);
+    }
+    
+    private void jbAtualizarActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        limpar();
+        preencherTabela();
+    }			
+    --------------------------------------
