@@ -1,0 +1,130 @@
+# PacoteDAO ///Todos os DAO's estão aqui
+package dao;
+
+import conexaobanco.ConexaoBanco;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import modelo.Produto;
+
+public class ProdutoDAO {
+
+    public void cadastrarProduto(Produto p) throws SQLException {
+        //buscando uma conexao com o BD
+        Connection con = ConexaoBanco.getConexao();
+        //cria objeto capaz de executar instruçao SQLem qualquer banco de dados
+        Statement stat = con.createStatement();
+        try {
+            //declarar variavel que recebera um SQL
+            String sql;
+            //montar a instruçao insert para a inserção de BD
+            sql = "insert into produto(idproduto,nome,valorcusto,quantidade)" + "values(null,'" + p.getNome() + "'," + p.getValorCusto() + "," + p.getQuantidade();
+            stat.execute(sql);
+        }catch (SQLException se) {
+            throw new SQLException("Erro ao inserir dados no banco de dados!" + se.getMessage());
+
+        }finally{
+            stat.close();
+            con.close();
+        }
+    }
+
+}/// Fecha pacote DAO "PRODUTO"
+
+------------------------
+package dao;
+
+/**
+ * @author Thiago Cury
+ * @since 07/04/2014 - 11:46
+ * @version 1.0 beta
+ */
+public class DAOFactory {
+    
+    private static final ProdutoDAO pDAO = new ProdutoDAO();
+    
+    public static ProdutoDAO getProdutoDAO(){
+        return pDAO;
+    }
+}//fecha classe
+-----------------------------
+public class ProdutoDAO { //DATA ACCESS OBJECT
+
+    public void cadastrarProduto(ProdutoVO p) throws SQLException {
+        Connection con = ConexaoBanco.getConexao();
+        Statement stat = con.createStatement();
+        try {
+            String sql = "";
+            
+            sql = "insert into produto(idproduto,nome,valorcusto,quantidade)"
+                    + "values(null,'"+p.getNome()+"',"+p.getValorCusto()+","+p.getQuantidade()+")";
+            
+            stat.execute(sql);
+            
+        } catch (SQLException e) {
+           throw new SQLException("Erro ao cadastrar! " + e.getMessage());
+        } finally {
+           stat.close();
+           con.close();
+        }
+    }//fecha método
+}//fecha classe
+------------------------------
+
+public class ProdutoDAO {
+
+    /**
+     * @author Thiago Cury
+     * @version 1.0 beta
+     * @since 07/04/2014
+     */
+    public void cadastrarProduto(ProdutoVO pVO) throws SQLException {
+
+        Connection con = ConexaoBanco.getConexao();
+        Statement stat = con.createStatement();
+
+        try {
+            String sql;
+
+            //MAPEAMENTO OBJETO RELACIONAL
+            sql = "insert into produto(idproduto,nome,valorcusto,quantidade)"
+                    + "values(null, '" + pVO.getNome() + "', " + pVO.getValorCusto() + ", " + pVO.getQuantidade() + ")";
+
+            stat.execute(sql);
+
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao cadastrar produto! " + e.getMessage());
+        } finally {
+            con.close();
+            stat.close();
+        }//fecha finally
+    }//fecha método cadastrar
+
+    public ArrayList<ProdutoVO> buscarProdutos() throws SQLException {
+        Connection con = ConexaoBanco.getConexao();
+        Statement stat = con.createStatement();
+        try {
+            String sql="";
+            sql="select * from produto";
+            ArrayList<ProdutoVO> prods = new ArrayList<>();
+            ResultSet rs = stat.executeQuery(sql);
+            while(rs.next()){
+                ProdutoVO p = new ProdutoVO();
+                p.setIdProduto(rs.getLong("idproduto"));
+                p.setNome(rs.getString("nome"));			
+                p.setValorCusto(rs.getDouble("valorcusto"));
+                p.setQuantidade(rs.getInt("quantidade"));   
+                prods.add(p); //NAO ESQUECER
+            }
+            return prods; //NAO ESQUECER
+        } catch (SQLException e) {
+         throw new SQLException(
+          "Erro ao buscar produtos!"+e.getMessage());
+        } finally {
+            stat.close();
+            con.close();
+        }//fecha finally
+    }//fecha método
+}//fecha classe
+-----------------------------------
+
